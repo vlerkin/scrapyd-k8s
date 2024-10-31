@@ -251,6 +251,21 @@ If you want to delete a project, remove it from the configuration file.
 
 The Docker and Kubernetes launchers have their own additional options.
 
+If you want to use joblogs feature, please (available for Kubernetes clusters), add the following sections to the config file:
+[joblogs] 
+* `storage_provider` - the initials should match the identifiers from Apache Libcloud object storage providers (e.g. google_storage, azure_blob, do_spaces, etc)
+* `container_name` - the name of the container where the files will be stored in the cloud (container == bucket in AWS, GCP)
+
+[joblogs.storage.<storage_provider_initials>]
+* `key`- key to connect to the storage provider
+* `secret` - secret to connect to the storage provider
+* `region` - region where the container is located
+Some providers may require a different set of credetials for driver initialization, make sure you add all of them (e.g. project, endpoint, etc).
+The code will read the corresponding values as ENV variables, and if they are not provided there - from config; make sure to follow a commented out example of both sections<br>
+in the example config for k8s.
+Please, consult with the Apache Libcloud docs to make sure you provided right names for parameters and they are sufficient for driver initialization, uploading a file and<br>
+checking if the object exists in the container.
+
 ## License
 
 This software is distributed under the [MIT license](LICENSE.md).
